@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EcoCharge AI | Smart EV Charging</title>
+<style>
+:root{--bg:#07111f;--panel:#101e30;--panel2:#14263b;--text:#eef6ff;--muted:#a9bbcf;--green:#52e0a0;--cyan:#63d8ff;--line:#29415b}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#07111f,#0d2032);color:var(--text);font:16px/1.5 "Segoe UI",Arial,sans-serif}
+main{max-width:1120px;margin:auto;padding:28px 18px 44px}.top{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{font-size:13px;letter-spacing:2px;color:var(--green);font-weight:800}.hero h1{font-size:clamp(32px,5vw,48px);margin:8px 0 4px}.hero p{color:var(--muted);margin:0}
+.pill{border:1px solid #28674f;color:var(--green);padding:7px 12px;border-radius:99px;font-size:13px}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:18px;margin-top:26px}.panel{background:rgba(16,30,48,.94);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 12px 35px #0002}
+h2{font-size:19px;margin:0 0 15px}label{display:block;color:var(--muted);font-size:13px;margin:14px 0 6px}
+input{width:100%;padding:11px 12px;background:#081626;border:1px solid #35516d;border-radius:9px;color:var(--text);font-size:16px}
+small,.muted{color:var(--muted)}button{cursor:pointer;border:0;border-radius:10px;background:var(--green);color:#052217;font-weight:800;padding:12px 15px;margin-top:16px;width:100%;font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.metric{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:15px}.metric span{display:block;color:var(--muted);font-size:12px}.metric strong{display:block;font-size:24px;margin-top:6px;overflow-wrap:anywhere}.good{color:var(--green)}
+.content{display:grid;gap:18px}.compare{width:100%;border-collapse:collapse;margin-top:6px}.compare th,.compare td{text-align:left;border-bottom:1px solid var(--line);padding:11px 8px}.compare th{color:var(--muted);font-size:12px}
+.chartgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.barrow{margin:13px 0}.barlabel{display:flex;justify-content:space-between;gap:8px;font-size:13px}.track{height:12px;background:#081626;border-radius:99px;overflow:hidden;margin-top:7px}.bar{height:100%;border-radius:99px;background:linear-gradient(90deg,#39bb86,#6de5ae);width:0%;transition:width .2s}.bar.blue{background:linear-gradient(90deg,#1b91cb,#63d8ff)}
+.notice{background:#0c2c2a;border:1px solid #28674f;border-radius:12px;padding:15px}.notice strong{color:var(--green)}.footer{margin-top:18px;color:var(--muted);font-size:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.chartgrid{grid-template-columns:1fr}}
+@media(max-width:420px){.cards{grid-template-columns:1fr 1fr}.metric strong{font-size:20px}}
+</style>
+</head>
+<body><main>
+<header class="top"><div class="hero"><div class="brand">GREEN MOBILITY • DECISION SUPPORT</div><h1>⚡ EcoCharge AI</h1><p>Smart, Solar-Aware EV Charging &amp; Carbon-Saving System</p></div><div class="pill">● Browser Prototype</div></header>
+<div class="layout">
+<aside class="panel">
+<h2>Charging Inputs</h2>
+<label for="energy">Energy needed (kWh)</label><input id="energy" type="number" min="1" max="100" step="1" value="20">
+<label for="nowtariff">Immediate tariff (₹/kWh)</label><input id="nowtariff" type="number" min="1" max="50" step=".5" value="8">
+<label for="smarttariff">Recommended-slot tariff (₹/kWh)</label><input id="smarttariff" type="number" min="1" max="50" step=".5" value="6">
+<label for="carbon">Grid emissions (kg CO₂/kWh)</label><input id="carbon" type="number" min="0" max="2" step=".05" value=".70">
+<label for="solar">Estimated solar share (%)</label><input id="solar" type="number" min="0" max="100" step="5" value="60">
+<button id="update">Update recommendation</button>
+<p class="footer">Illustrative inputs only. This prototype does not control a real charger or connect to live data.</p>
+</aside>
+<section class="content">
+<div class="cards">
+<div class="metric"><span>Immediate cost</span><strong id="nowcost">₹160.00</strong></div>
+<div class="metric"><span>Recommended cost</span><strong id="smartcost" class="good">₹120.00</strong></div>
+<div class="metric"><span>Immediate emissions</span><strong id="nowco2">14.00 kg</strong></div>
+<div class="metric"><span>Recommended emissions</span><strong id="smartco2" class="good">5.60 kg</strong></div>
+</div>
+<div class="panel"><h2>Charging Strategy Comparison</h2>
+<table class="compare"><thead><tr><th>Strategy</th><th>Cost</th><th>Est. CO₂</th><th>Solar share</th></tr></thead>
+<tbody><tr><td>Charge immediately</td><td id="tabnowcost">₹160.00</td><td id="tabnowco2">14.00 kg</td><td>0%</td></tr>
+<tr><td>Solar-aware recommended slot</td><td id="tabsmartcost">₹120.00</td><td id="tabsmartco2">5.60 kg</td><td id="tabsun">60%</td></tr></tbody></table>
+</div>
+<div class="chartgrid">
+<div class="panel"><h2>Estimated Charging Cost</h2>
+<div class="barrow"><div class="barlabel"><span>Immediate</span><b id="nowcostlabel">₹160.00</b></div><div class="track"><div id="nowbar" class="bar blue"></div></div></div>
+<div class="barrow"><div class="barlabel"><span>Solar-aware</span><b id="smartcostlabel">₹120.00</b></div><div class="track"><div id="smartbar" class="bar"></div></div></div>
+</div>
+<div class="panel"><h2>Estimated Carbon Emissions</h2>
+<div class="barrow"><div class="barlabel"><span>Immediate</span><b id="nowco2label">14.00 kg</b></div><div class="track"><div id="nowco2bar" class="bar blue"></div></div></div>
+<div class="barrow"><div class="barlabel"><span>Solar-aware</span><b id="smartco2label">5.60 kg</b></div><div class="track"><div id="smartco2bar" class="bar"></div></div></div>
+</div></div>
+<div class="notice" id="recommendation"><strong>Recommendation:</strong> Under these example assumptions, the solar-aware slot costs less and has lower estimated grid emissions.</div>
+<button id="download" style="background:#63d8ff">Download comparison CSV</button>
+<div class="footer">Method: cost = energy × tariff. Immediate emissions = energy × grid factor. Recommended emissions = energy × (1 − solar share) × grid factor. This simplified model assumes solar energy has zero operational grid emissions. No real-world savings are claimed.</div>
+</section></div></main>
+<script>
+const $=id=>document.getElementById(id);
+const num=(id, fallback)=>{const n=Number($(id).value);return Number.isFinite(n)?n:fallback};
+const money=n=>"₹"+n.toFixed(2), kg=n=>n.toFixed(2)+" kg";
+let latest=[];
+function update(){
+ const e=Math.max(0,num("energy",20)),tn=Math.max(0,num("nowtariff",8)),ts=Math.max(0,num("smarttariff",6)),g=Math.max(0,num("carbon",.7)),s=Math.min(100,Math.max(0,num("solar",60)))/100;
+ const nc=e*tn,sc=e*ts,ne=e*g,se=e*(1-s)*g;
+ $("nowcost").textContent=money(nc);$("smartcost").textContent=money(sc);$("nowco2").textContent=kg(ne);$("smartco2").textContent=kg(se);
+ $("tabnowcost").textContent=money(nc);$("tabsmartcost").textContent=money(sc);$("tabnowco2").textContent=kg(ne);$("tabsmartco2").textContent=kg(se);$("tabsun").textContent=(s*100).toFixed(0)+"%";
+ $("nowcostlabel").textContent=money(nc);$("smartcostlabel").textContent=money(sc);$("nowco2label").textContent=kg(ne);$("smartco2label").textContent=kg(se);
+ $("nowbar").style.width=(nc?100:0)+"%";$("smartbar").style.width=(Math.max(nc,sc)?sc/Math.max(nc,sc)*100:0)+"%";
+ $("nowco2bar").style.width=(ne?100:0)+"%";$("smartco2bar").style.width=(Math.max(ne,se)?se/Math.max(ne,se)*100:0)+"%";
+ $("recommendation").innerHTML=(sc<=nc&&se<=ne)?"<strong>Recommendation:</strong> Under these example assumptions, the solar-aware slot costs "+money(nc-sc)+" less and has an estimated "+kg(ne-se)+" lower grid-emissions footprint.":"<strong>Recommendation:</strong> Compare the cost and emissions trade-offs; the recommended slot is not better on both metrics under the current assumptions.";
+ latest=[["Strategy","Energy needed (kWh)","Tariff (INR/kWh)","Solar share (%)","Estimated cost (INR)","Grid emissions factor (kg CO2/kWh)","Estimated emissions (kg CO2)"],["Charge immediately",e,tn,0,nc,g,ne],["Solar-aware recommended slot",e,ts,s*100,sc,g,se]];
+}
+$("update").addEventListener("click",update);
+["energy","nowtariff","smarttariff","carbon","solar"].forEach(id=>$(id).addEventListener("change",update));
+$("download").addEventListener("click",()=>{const csv=latest.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(",")).join("\r\n");const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ecocharge_comparison.csv";a.click();URL.revokeObjectURL(a.href);});
+update();
+</script></body></html>

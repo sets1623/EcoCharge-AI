@@ -1,0 +1,1 @@
+PPT note: EcoCharge AI prototype source code is in app.py and EcoCharge_AI_Dashboard.html. Example results are illustrative calculations, not measured real-world savings. The browser dashboard must be opened and tested before claiming a successful live demonstration.

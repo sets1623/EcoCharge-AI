@@ -1,0 +1,3 @@
+Strategy,Energy needed (kWh),Tariff (INR/kWh),Solar share (%),Estimated cost (INR),Grid emissions factor (kg CO2/kWh),Estimated emissions (kg CO2)
+Charge immediately,20,8,0,160,0.7,14
+Solar-aware recommended slot,20,6,60,120,0.7,5.6
